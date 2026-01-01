@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DBConnection {
 
     private static final String URL =
-            "jdbc:mysql://localhost:3306/supermarket_management"
+            "jdbc:mysql://localhost:3306/QLsieuthi"
                     + "?useSSL=false"
                     + "&serverTimezone=Asia/Ho_Chi_Minh"
                     + "&characterEncoding=utf8";
