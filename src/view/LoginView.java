@@ -1,26 +1,29 @@
 package view;
 
 
-
 import javax.swing.*;
 import java.awt.*;
 
 public class LoginView extends JFrame {
 
+    // ===== KHAI BÁO COMPONENT =====
     public JTextField txtUsername;
     public JPasswordField txtPassword;
     public JButton btnLogin, btnExit;
     public JLabel lblMessage;
 
+    // ===== CONSTRUCTOR =====
     public LoginView() {
         setTitle("Đăng nhập hệ thống");
         setSize(400, 300);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         initUI();
+        initEvent();        // ← GỌI Ở ĐÂY
         setVisible(true);
     }
 
+    // ===== TẠO GIAO DIỆN =====
     private void initUI() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout(10, 10));
@@ -28,7 +31,7 @@ public class LoginView extends JFrame {
 
         // ===== TITLE =====
         JLabel lblTitle = new JLabel("HỆ THỐNG BÁN HÀNG SIÊU THỊ", JLabel.CENTER);
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 16));
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
         panel.add(lblTitle, BorderLayout.NORTH);
 
         // ===== CENTER =====
@@ -52,20 +55,44 @@ public class LoginView extends JFrame {
         south.add(lblMessage);
 
         JPanel btnPanel = new JPanel();
-        btnLogin = new JButton("Đăng nhập");
+        btnLogin = new JButton("Đăng nhập"); // ⚠️ KHÔNG ghi "JButton" phía trước
         btnExit = new JButton("Thoát");
+
         btnPanel.add(btnLogin);
         btnPanel.add(btnExit);
 
         south.add(btnPanel);
-
         panel.add(south, BorderLayout.SOUTH);
 
         add(panel);
+    }
+
+
+    // ===== GẮN SỰ KIỆN =====
+    private void initEvent() {
+        btnLogin.addActionListener(e -> handleLogin());
+        btnExit.addActionListener(e -> System.exit(0));
+    }
+
+    // ===== XỬ LÝ ĐĂNG NHẬP =====
+    private void handleLogin() {
+        String username = txtUsername.getText();
+        String password = String.valueOf(txtPassword.getPassword());
+
+        if (username.equals("admin") && password.equals("123")) {
+            dispose();
+            new MainFrame("ADMIN");
+        } else if (username.equals("nv") && password.equals("123")) {
+            dispose();
+            new MainFrame("NHANVIEN");
+        } else {
+            lblMessage.setText("Sai tên đăng nhập hoặc mật khẩu!");
+        }
     }
 
     public static void main(String[] args) {
         new LoginView();
     }
 }
+
 
