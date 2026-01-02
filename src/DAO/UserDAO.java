@@ -26,7 +26,9 @@ public class UserDAO {
                         rs.getString("maNV"),
                         rs.getString("tenNV"),
                         rs.getString("chucVu"),
-                        rs.getString("username")
+                        rs.getString("sdt"),
+                        rs.getString("username"),
+                        rs.getString("password")
                 );
             }
 

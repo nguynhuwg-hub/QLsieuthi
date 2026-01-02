@@ -1,5 +1,7 @@
 package view;
 
+import controller.NhanVienController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -35,6 +37,7 @@ public class NhanVienView extends JPanel {
         btnPanel.add(btnXoa);
 
         add(btnPanel, BorderLayout.SOUTH);
+        new NhanVienController(this);
     }
 
     private JButton createButton(String text) {

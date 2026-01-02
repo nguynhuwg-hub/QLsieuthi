@@ -71,6 +71,26 @@ public class AdminView extends JPanel {
 
         btnThongKe.addActionListener(e ->
                 cardLayout.show(contentPanel, "THONGKE"));
+
+        btnLogout.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(
+                    this,
+                    "Bạn có chắc chắn muốn đăng xuất?",
+                    "Xác nhận đăng xuất",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                // Lấy JFrame chứa AdminView
+                Window window = SwingUtilities.getWindowAncestor(this);
+                if (window != null) {
+                    window.dispose(); // đóng Admin
+                }
+
+                // Mở lại màn hình đăng nhập
+                new LoginView().setVisible(true);
+            }
+        });
     }
 
     private JButton createMenuButton(String text) {
