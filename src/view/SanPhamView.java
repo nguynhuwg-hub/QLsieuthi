@@ -7,17 +7,36 @@ public class SanPhamView extends JPanel {
 
     public JTable tableSP;
     public JButton btnThem, btnSua, btnXoa;
+    public JTextField txtSearch;
+    public JButton btnSearch;
 
     public SanPhamView() {
         setLayout(new BorderLayout(15, 15));
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // ===== TITLE =====
+        // ===== TOP PANEL (TITLE + SEARCH) =====
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(Color.WHITE);
+
         JLabel lblTitle = new JLabel("QUẢN LÝ SẢN PHẨM");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 20));
         lblTitle.setForeground(new Color(52, 73, 94));
-        add(lblTitle, BorderLayout.NORTH);
+        topPanel.add(lblTitle, BorderLayout.WEST);
+
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        searchPanel.setBackground(Color.WHITE);
+
+        searchPanel.add(new JLabel("Tìm:"));
+        txtSearch = new JTextField(20);
+        searchPanel.add(txtSearch);
+
+        btnSearch = createButton("Tìm kiếm");
+        searchPanel.add(btnSearch);
+
+        topPanel.add(searchPanel, BorderLayout.EAST);
+
+        add(topPanel, BorderLayout.NORTH);
 
         // ===== TABLE =====
         tableSP = new JTable();

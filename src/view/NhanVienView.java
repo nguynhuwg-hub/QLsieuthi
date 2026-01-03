@@ -55,7 +55,7 @@ public class NhanVienView extends JPanel {
         topPanel.add(searchPanel, BorderLayout.EAST);
 
         add(topPanel, BorderLayout.NORTH);
-        new NhanVienController(this);
+
     }
 
     private JButton createButton(String text) {

@@ -36,7 +36,7 @@ public class NhanVienDAO {
     }
 
     // Thêm nhân viên
-    public boolean insert(NhanVien_m nv) {
+    public boolean insert(NhanVien_m nv) throws SQLException {
         String sql = "INSERT INTO nhanvien(maNV, tenNV, chucVu, sdt, username, password) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -51,11 +51,7 @@ public class NhanVienDAO {
             ps.setString(6, nv.getPassword());
 
             return ps.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return false;
     }
 
 

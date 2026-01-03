@@ -66,27 +66,44 @@ public class NhanVienController {
             NhanVienForm form = new NhanVienForm(parent);
 
             form.btnLuu.addActionListener(ev -> {
-                // Validate
-                if (form.txtMaNV.getText().isEmpty() ||
-                        form.txtTenNV.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(form, "Không được để trống dữ liệu");
-                    return;
-                }
+                try {
+                    // Validate rỗng
+                    if (form.txtMaNV.getText().isEmpty() ||
+                            form.txtTenNV.getText().isEmpty()) {
 
-                NhanVien_m nv = new NhanVien_m();
-                nv.setMaNV(form.txtMaNV.getText());
-                nv.setTenNV(form.txtTenNV.getText());
-                nv.setChucVu(form.cbChucVu.getSelectedItem().toString());
-                nv.setSdt(form.txtSdt.getText());
-                nv.setUsername(form.txtUsername.getText());
-                nv.setPassword(new String(form.txtPassword.getPassword()));
+                        JOptionPane.showMessageDialog(form, "Không được để trống dữ liệu");
+                        return;
+                    }
 
-                if (dao.insert(nv)) {
-                    JOptionPane.showMessageDialog(form, "Thêm thành công");
-                    form.dispose();
-                    loadData();
-                } else {
-                    JOptionPane.showMessageDialog(form, "Thêm thất bại");
+                    NhanVien_m nv = new NhanVien_m();
+                    nv.setMaNV(form.txtMaNV.getText().trim());
+                    nv.setTenNV(form.txtTenNV.getText().trim());
+                    nv.setChucVu(form.cbChucVu.getSelectedItem().toString());
+                    nv.setSdt(form.txtSdt.getText().trim());
+                    nv.setUsername(form.txtUsername.getText().trim());
+                    nv.setPassword(new String(form.txtPassword.getPassword()));
+
+                    if (dao.insert(nv)) {
+                        JOptionPane.showMessageDialog(form, "Thêm thành công");
+                        form.dispose();
+                        loadData();
+                    }
+
+                } catch (java.sql.SQLIntegrityConstraintViolationException ex) {
+                    JOptionPane.showMessageDialog(
+                            form,
+                            "Nhân viên đã tồn tại!",
+                            "Lỗi trùng dữ liệu",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(
+                            form,
+                            "Dữ liệu không hợp lệ!",
+                            "Lỗi",
+                            JOptionPane.ERROR_MESSAGE
+                    );
                 }
             });
 

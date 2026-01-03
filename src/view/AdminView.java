@@ -1,6 +1,9 @@
 package view;
 
 
+import controller.NhanVienController;
+import controller.SanPhamController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -52,15 +55,26 @@ public class AdminView extends JPanel {
         add(sidebar, BorderLayout.WEST);
 
         // ===== CONTENT =====
+        // ===== CONTENT =====
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
         contentPanel.setBackground(Color.WHITE);
 
-        contentPanel.add(new SanPhamView(), "SANPHAM");
-        contentPanel.add(new NhanVienView(), "NHANVIEN");
+        // ===== SẢN PHẨM =====
+        SanPhamView spView = new SanPhamView();
+        new SanPhamController(spView);
+        contentPanel.add(spView, "SANPHAM");
+
+        // ===== NHÂN VIÊN =====
+        NhanVienView nvView = new NhanVienView();
+        new NhanVienController(nvView);
+        contentPanel.add(nvView, "NHANVIEN");
+
+        // ===== THỐNG KÊ =====
         contentPanel.add(new ThongKeView(), "THONGKE");
 
         add(contentPanel, BorderLayout.CENTER);
+
     }
     private void initEvent() {
         btnSanPham.addActionListener(e ->
