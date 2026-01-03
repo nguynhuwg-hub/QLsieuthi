@@ -94,4 +94,36 @@ public class NhanVienDAO {
         }
         return false;
     }
+    // Tìm kiếm theo mã NV hoặc tên NV
+    public List<NhanVien_m> search(String keyword) {
+        List<NhanVien_m> list = new ArrayList<>();
+        String sql = "SELECT * FROM nhanvien WHERE maNV LIKE ? OR tenNV LIKE ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            String key = "%" + keyword + "%";
+            ps.setString(1, key);
+            ps.setString(2, key);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                NhanVien_m nv = new NhanVien_m(
+                        rs.getString("maNV"),
+                        rs.getString("tenNV"),
+                        rs.getString("chucVu"),
+                        rs.getString("sdt"),
+                        rs.getString("username"),
+                        rs.getString("password")
+                );
+                list.add(nv);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }

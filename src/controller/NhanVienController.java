@@ -45,6 +45,18 @@ public class NhanVienController {
             });
         }
     }
+    private void loadTable(List<NhanVien_m> list) {
+        tableModel.setRowCount(0);
+        for (NhanVien_m nv : list) {
+            tableModel.addRow(new Object[]{
+                    nv.getMaNV(),
+                    nv.getTenNV(),
+                    nv.getChucVu(),
+                    nv.getSdt(),
+                    nv.getUsername()
+            });
+        }
+    }
 
     private void initEvent() {
 
@@ -153,5 +165,22 @@ public class NhanVienController {
                 }
             }
         });
+        view.btnSearch.addActionListener(e -> {
+            String keyword = view.txtSearch.getText().trim();
+
+            if (keyword.isEmpty()) {
+                loadData(); // nếu rỗng thì load lại tất cả
+                return;
+            }
+
+            List<NhanVien_m> result = dao.search(keyword);
+
+            if (result.isEmpty()) {
+                JOptionPane.showMessageDialog(view, "Không tìm thấy nhân viên");
+            }
+
+            loadTable(result);
+        });
+
     }
 }

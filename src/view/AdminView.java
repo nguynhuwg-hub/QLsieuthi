@@ -88,7 +88,10 @@ public class AdminView extends JPanel {
                 }
 
                 // Mở lại màn hình đăng nhập
-                new LoginView().setVisible(true);
+                java.sql.Connection conn = DB.DBConnection.getConnection();
+                view.LoginView loginView = new view.LoginView();
+                new controller.LoginController(loginView, conn);
+
             }
         });
     }

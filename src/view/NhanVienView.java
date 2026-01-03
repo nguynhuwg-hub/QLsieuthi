@@ -7,8 +7,9 @@ import java.awt.*;
 
 public class NhanVienView extends JPanel {
 
+    public JTextField txtSearch;
     public JTable tableNV;
-    public JButton btnThem, btnSua, btnXoa;
+    public JButton btnThem, btnSua, btnXoa,btnSearch;
 
     public NhanVienView() {
         setLayout(new BorderLayout(15, 15));
@@ -37,6 +38,23 @@ public class NhanVienView extends JPanel {
         btnPanel.add(btnXoa);
 
         add(btnPanel, BorderLayout.SOUTH);
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(Color.WHITE);
+
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
+        searchPanel.setBackground(Color.WHITE);
+
+        txtSearch = new JTextField(20);
+        btnSearch = createButton("Tìm kiếm");
+
+        searchPanel.add(new JLabel("Tìm:"));
+        searchPanel.add(txtSearch);
+        searchPanel.add(btnSearch);
+
+        topPanel.add(lblTitle, BorderLayout.WEST);
+        topPanel.add(searchPanel, BorderLayout.EAST);
+
+        add(topPanel, BorderLayout.NORTH);
         new NhanVienController(this);
     }
 
