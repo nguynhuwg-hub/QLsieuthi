@@ -119,5 +119,44 @@ public class SanPhamDAO {
         }
         return list;
     }
+    public SanPham_m findByMa(String maSP) {
+        String sql = "SELECT * FROM sanpham WHERE maSP = ?";
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, maSP);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new SanPham_m(
+                        rs.getString("maSP"),
+                        rs.getString("tenSP"),
+                        rs.getDouble("gia"),
+                        rs.getInt("soLuong")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public void truSoLuong(String maSP, int soLuong, Connection con) throws Exception {
+        String sql = "UPDATE sanpham SET soLuong = soLuong - ? WHERE maSP = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, soLuong);
+        ps.setString(2, maSP);
+        ps.executeUpdate();
+    }
+    public int getSoLuongTon(String maSP, Connection con) throws Exception {
+        String sql = "SELECT soLuong FROM sanpham WHERE maSP = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, maSP);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return rs.getInt("soLuong");
+        }
+        return 0;
+    }
 
 }

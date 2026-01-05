@@ -12,6 +12,8 @@ public class banhang extends JPanel {
     public JButton btnTim, btnThem, btnThanhToan, btnHuy;
     public JTable tableGioHang;
     public JLabel lblTongTien;
+    public JButton btnDangXuat;
+
 
     public banhang() {
         txtMaSP = createTextField();
@@ -121,8 +123,13 @@ public class banhang extends JPanel {
         btnThanhToan = createButton("Thanh toán");
         btnHuy = createButton("Hủy hóa đơn");
 
+        // 👉 NÚT ĐĂNG XUẤT
+        btnDangXuat = createButton("Đăng xuất");
+        btnDangXuat.setBackground(new Color(231, 76, 60)); // đỏ
+
         btnPanel.add(btnThanhToan);
         btnPanel.add(btnHuy);
+        btnPanel.add(btnDangXuat);
 
         panel.add(lblTongTien, BorderLayout.WEST);
         panel.add(btnPanel, BorderLayout.EAST);

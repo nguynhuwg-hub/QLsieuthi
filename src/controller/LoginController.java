@@ -36,7 +36,7 @@ public class LoginController {
                     "Xin chào " + nv.getTenNV());
 
             view.dispose();
-            new mainframe(nv.getChucVu());
+            new mainframe(nv.getChucVu(), nv.getMaNV());
 
         } else {
             JOptionPane.showMessageDialog(view,
