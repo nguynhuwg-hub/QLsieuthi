@@ -1,22 +1,18 @@
 package view;
 
-
-import controller.NhanVienController;
-import controller.SanPhamController;
-
+import controller.*;
 import javax.swing.*;
 import java.awt.*;
 
 public class AdminView extends JPanel {
 
     public JButton btnSanPham, btnNhanVien, btnThongKe, btnLogout;
-    public JPanel contentPanel;
-    public CardLayout cardLayout;
+    private JPanel contentPanel;
+    private CardLayout cardLayout;
 
     public AdminView() {
         initUI();
         initEvent();
-        setVisible(true);
     }
 
     private void initUI() {
@@ -35,30 +31,27 @@ public class AdminView extends JPanel {
         add(header, BorderLayout.NORTH);
 
         // ===== SIDEBAR =====
-        JPanel sidebar = new JPanel();
+        JPanel sidebar = new JPanel(new GridLayout(6, 1, 0, 10));
         sidebar.setPreferredSize(new Dimension(220, 0));
         sidebar.setBackground(new Color(44, 62, 80));
-        sidebar.setLayout(new GridLayout(6, 1, 0, 10));
         sidebar.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
 
         btnSanPham = createMenuButton("Quản lý sản phẩm");
         btnNhanVien = createMenuButton("Quản lý nhân viên");
-        btnThongKe = createMenuButton("Thống kê");
-        btnLogout = createMenuButton("Đăng xuất");
+        btnThongKe  = createMenuButton("Thống kê");
+        btnLogout   = createMenuButton("Đăng xuất");
 
         sidebar.add(btnSanPham);
         sidebar.add(btnNhanVien);
         sidebar.add(btnThongKe);
-        sidebar.add(new JLabel()); // spacer
+        sidebar.add(new JLabel());
         sidebar.add(btnLogout);
 
         add(sidebar, BorderLayout.WEST);
 
         // ===== CONTENT =====
-        // ===== CONTENT =====
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
-        contentPanel.setBackground(Color.WHITE);
 
         // ===== SẢN PHẨM =====
         SanPhamView spView = new SanPhamView();
@@ -71,11 +64,16 @@ public class AdminView extends JPanel {
         contentPanel.add(nvView, "NHANVIEN");
 
         // ===== THỐNG KÊ =====
-        contentPanel.add(new ThongKeView(), "THONGKE");
+        ThongKeView thongKeView = new ThongKeView();
+        new ThongKeController(thongKeView);
+        contentPanel.add(thongKeView, "THONGKE");
 
         add(contentPanel, BorderLayout.CENTER);
 
+        // ✅ HIỂN THỊ MẶC ĐỊNH
+        cardLayout.show(contentPanel, "NHANVIEN");
     }
+
     private void initEvent() {
         btnSanPham.addActionListener(e ->
                 cardLayout.show(contentPanel, "SANPHAM"));
@@ -90,38 +88,27 @@ public class AdminView extends JPanel {
             int confirm = JOptionPane.showConfirmDialog(
                     this,
                     "Bạn có chắc chắn muốn đăng xuất?",
-                    "Xác nhận đăng xuất",
+                    "Xác nhận",
                     JOptionPane.YES_NO_OPTION
             );
 
             if (confirm == JOptionPane.YES_OPTION) {
-                // Lấy JFrame chứa AdminView
                 Window window = SwingUtilities.getWindowAncestor(this);
-                if (window != null) {
-                    window.dispose(); // đóng Admin
-                }
+                if (window != null) window.dispose();
 
-                // Mở lại màn hình đăng nhập
                 java.sql.Connection conn = DB.DBConnection.getConnection();
                 view.LoginView loginView = new view.LoginView();
                 new controller.LoginController(loginView, conn);
-
             }
         });
     }
 
     private JButton createMenuButton(String text) {
         JButton btn = new JButton(text);
-        btn.setFocusPainted(false);
         btn.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         btn.setForeground(Color.WHITE);
         btn.setBackground(new Color(52, 152, 219));
-        btn.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        btn.setFocusPainted(false);
         return btn;
     }
-
-    public static void main(String[] args) {
-        new AdminView();
-    }
 }
-
