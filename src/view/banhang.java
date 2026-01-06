@@ -1,7 +1,5 @@
 package view;
 
-
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -9,10 +7,9 @@ import java.awt.*;
 public class banhang extends JPanel {
 
     public JTextField txtMaSP, txtTenSP, txtGia, txtSoLuong;
-    public JButton btnTim, btnThem, btnThanhToan, btnHuy;
+    public JButton btnTim, btnThem, btnThanhToan, btnHuy,btnDangXuat;
     public JTable tableGioHang;
     public JLabel lblTongTien;
-    public JButton btnDangXuat;
 
 
     public banhang() {
@@ -113,6 +110,7 @@ public class banhang extends JPanel {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Color.WHITE);
 
+
         lblTongTien = new JLabel("Tổng tiền: 0 VNĐ");
         lblTongTien.setFont(new Font("Segoe UI", Font.BOLD, 20));
         lblTongTien.setForeground(new Color(231, 76, 60));
@@ -150,6 +148,7 @@ public class banhang extends JPanel {
         btn.setForeground(Color.WHITE);
         btn.setBackground(new Color(52, 152, 219));
         btn.setFocusPainted(false);
+        btn.setMinimumSize(new Dimension(140, 35));
         return btn;
     }
 

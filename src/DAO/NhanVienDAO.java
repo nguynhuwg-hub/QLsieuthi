@@ -37,6 +37,12 @@ public class NhanVienDAO {
 
     // Thêm nhân viên
     public boolean insert(NhanVien_m nv) throws SQLException {
+
+        // 🚫 Không cho insert nếu thiếu mật khẩu
+        if (nv.getPassword() == null || nv.getPassword().trim().isEmpty()) {
+            throw new SQLException("Mật khẩu không được để trống");
+        }
+
         String sql = "INSERT INTO nhanvien(maNV, tenNV, chucVu, sdt, username, password) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -48,16 +54,29 @@ public class NhanVienDAO {
             ps.setString(3, nv.getChucVu());
             ps.setString(4, nv.getSdt());
             ps.setString(5, nv.getUsername());
-            ps.setString(6, nv.getPassword());
+            ps.setString(6, nv.getPassword()); // nên hash
 
             return ps.executeUpdate() > 0;
         }
     }
 
 
+
     // Cập nhật
     public boolean update(NhanVien_m nv) {
-        String sql = "UPDATE nhanvien SET tenNV=?, chucVu=?, sdt=?, username=?, password=? WHERE maNV=?";
+
+        boolean hasPassword =
+                nv.getPassword() != null && !nv.getPassword().trim().isEmpty();
+
+        String sql;
+
+        if (hasPassword) {
+            // ✅ CÓ cập nhật mật khẩu
+            sql = "UPDATE nhanvien SET tenNV=?, chucVu=?, sdt=?, username=?, password=? WHERE maNV=?";
+        } else {
+            // ❌ KHÔNG cập nhật mật khẩu
+            sql = "UPDATE nhanvien SET tenNV=?, chucVu=?, sdt=?, username=? WHERE maNV=?";
+        }
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -66,15 +85,22 @@ public class NhanVienDAO {
             ps.setString(2, nv.getChucVu());
             ps.setString(3, nv.getSdt());
             ps.setString(4, nv.getUsername());
-            ps.setString(5, nv.getPassword());
-            ps.setString(6, nv.getMaNV());
+
+            if (hasPassword) {
+                ps.setString(5, nv.getPassword()); // nên hash
+                ps.setString(6, nv.getMaNV());
+            } else {
+                ps.setString(5, nv.getMaNV());
+            }
 
             return ps.executeUpdate() > 0;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
+
 
     // Xóa
     public boolean delete(String maNV) {

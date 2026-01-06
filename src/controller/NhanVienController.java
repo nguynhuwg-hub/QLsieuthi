@@ -81,7 +81,20 @@ public class NhanVienController {
                     nv.setChucVu(form.cbChucVu.getSelectedItem().toString());
                     nv.setSdt(form.txtSdt.getText().trim());
                     nv.setUsername(form.txtUsername.getText().trim());
-                    nv.setPassword(new String(form.txtPassword.getPassword()));
+                    String password = new String(form.txtPassword.getPassword()).trim();
+
+                    if (password.isEmpty()) {
+                        JOptionPane.showMessageDialog(
+                                form,
+                                "Vui lòng nhập mật khẩu cho nhân viên!",
+                                "Thiếu mật khẩu",
+                                JOptionPane.WARNING_MESSAGE
+                        );
+                        return;
+                    }
+
+                    nv.setPassword(password);
+
 
                     if (dao.insert(nv)) {
                         JOptionPane.showMessageDialog(form, "Thêm thành công");
@@ -112,7 +125,7 @@ public class NhanVienController {
             form.setVisible(true);
         });
 
-        // SỬA
+
         // SỬA (dùng NhanVienForm)
         view.btnSua.addActionListener(e -> {
             int row = view.tableNV.getSelectedRow();
@@ -148,7 +161,14 @@ public class NhanVienController {
                 nv.setChucVu(form.cbChucVu.getSelectedItem().toString());
                 nv.setSdt(form.txtSdt.getText());
                 nv.setUsername(form.txtUsername.getText());
-                nv.setPassword(new String(form.txtPassword.getPassword()));
+                String password = new String(form.txtPassword.getPassword()).trim();
+
+                if (password.isEmpty()) {
+                    nv.setPassword(null); // ⭐ CỰC KỲ QUAN TRỌNG
+                } else {
+                    nv.setPassword(password);
+                }
+
 
                 if (dao.update(nv)) {
                     JOptionPane.showMessageDialog(form, "Cập nhật thành công");
